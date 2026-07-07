@@ -5,8 +5,9 @@ using namespace std;
 bool isValidSize(int size) {
     return size > 0;
 }
+
 int calculateTotal(const int scores[], int size) {
-    if (scores == nullptr || size <= 0) return 0;
+    if (scores == nullptr  || isValidSize(size) ) return 0; // Maybe instead of checking 'size <= 0' you can just use the function already defined.
     int total = 0;
     for (int i = 0; i < size; i++) {
         total += scores[i];
@@ -47,6 +48,7 @@ int findScore(const int scores[], int size, int target) {
     return -1;
 }
 void sortScores(int scores[], int size) {
+    if (scores == nullptr  || isValidSize(size) ) return; // Could be worth to end the program if invalid size or a nullptr array
     for (int start = 0; start < size - 1; start++) {
         int minIndex = start;
         for (int i = start + 1; i < size; i++) {
