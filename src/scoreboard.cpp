@@ -4,16 +4,14 @@
 using namespace std;
 
 int calculateTotal(const int scores[], int size) {
-    // TODO:
-    // If the array is null or the size is invalid, return 0.
-    // Otherwise, return the sum of all scores.
-    if(size <= 0 || scores == NULL) {
+    // Return 0 when the array is null or the size is invalid.
+    if (scores == nullptr || !isValidSize(size)) {
         return 0;
     }
 
     int total = 0;
 
-    for(int i = 0; i < size; i++) {
+    for (int i = 0; i < size; i++) {
         total += scores[i];
     }
 
@@ -21,28 +19,25 @@ int calculateTotal(const int scores[], int size) {
 }
 
 double calculateAverage(const int scores[], int size) {
-    // TODO:
-    // If the array is null or the size is invalid, return 0.0.
-    // Otherwise, return the total divided by size.
-    if(size <= 0 || scores == NULL) {
+    // Return 0.0 when the array is null or the size is invalid.
+    if (scores == nullptr || !isValidSize(size)) {
         return 0.0;
     }
 
-    return calculateTotal(scores, size) / double(size);
+    return static_cast<double>(calculateTotal(scores, size)) / size;
 }
 
 int findLowest(const int scores[], int size) {
-    // TODO:
-    // If the array is null or the size is invalid, return 0.
-    // Otherwise, return the smallest score.
-    if(size <= 0 || scores == NULL) {
+    // Return 0 when the array is null or the size is invalid.
+    if (scores == nullptr || !isValidSize(size)) {
         return 0;
     }
 
     int lowest = scores[0];
 
-    for(int i = 0; i < size; i++) {
-        if(scores[i] < lowest) {
+    // Begin at index 1 because index 0 is already stored in lowest.
+    for (int i = 1; i < size; i++) {
+        if (scores[i] < lowest) {
             lowest = scores[i];
         }
     }
@@ -51,17 +46,16 @@ int findLowest(const int scores[], int size) {
 }
 
 int findHighest(const int scores[], int size) {
-    // TODO:
-    // If the array is null or the size is invalid, return 0.
-    // Otherwise, return the largest score.
-    if(size <= 0 || scores == NULL) {
+    // Return 0 when the array is null or the size is invalid.
+    if (scores == nullptr || !isValidSize(size)) {
         return 0;
     }
 
     int highest = scores[0];
 
-    for(int i = 0; i < size; i++) {
-        if(scores[i] > highest) {
+    // Begin at index 1 because index 0 is already stored in highest.
+    for (int i = 1; i < size; i++) {
+        if (scores[i] > highest) {
             highest = scores[i];
         }
     }
@@ -70,26 +64,27 @@ int findHighest(const int scores[], int size) {
 }
 
 int findScore(const int scores[], int size, int target) {
-    // TODO:
-    // Search the array from left to right.
-    // Return the index where target is found.
-    // Return -1 when target is not found.
-    if(size <= 0 || scores == NULL) {
+    // Return -1 when the array is null or the size is invalid.
+    if (scores == nullptr || !isValidSize(size)) {
         return -1;
     }
 
-    for(int i = 0; i < size; i++) {
-        if(scores[i] == target) return i;
+    for (int i = 0; i < size; i++) {
+        if (scores[i] == target) {
+            return i;
+        }
     }
 
     return -1;
 }
 
 void sortScores(int scores[], int size) {
-    // TODO:
-    // Sort the array from lowest to highest.
-    // A selection sort works well for this lab.
+    // Prevent access to a null array or an invalid number of scores.
+    if (scores == nullptr || !isValidSize(size)) {
+        return;
+    }
 
+    // Selection sort from lowest to highest.
     for (int i = 0; i < size - 1; i++) {
         int lowestIndex = i;
 
@@ -99,9 +94,12 @@ void sortScores(int scores[], int size) {
             }
         }
 
-        int temp = scores[i];
-        scores[i] = scores[lowestIndex];
-        scores[lowestIndex] = temp;
+        // Avoid an unnecessary swap when the value is already in position.
+        if (lowestIndex != i) {
+            int temp = scores[i];
+            scores[i] = scores[lowestIndex];
+            scores[lowestIndex] = temp;
+        }
     }
 }
 
@@ -123,6 +121,5 @@ void printScores(const int scores[], int size) {
 }
 
 bool isValidSize(int size) {
-    // TODO: Return true when size is greater than 0.
-    return (size > 0);
+    return size > 0;
 }
